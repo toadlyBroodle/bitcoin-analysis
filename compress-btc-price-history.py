@@ -95,6 +95,7 @@ def main(argv):
                     compressed_csv.write(row[0] + ', {}\n'.format(avg_week_price))
 
                 wc=1
+                avg_week_price=0
 
             wc+=1
             avg_day_price = 0
@@ -104,7 +105,7 @@ def main(argv):
         line_num+=1
         dc+=1
 
-    print('Finished compressing bitstamp BTC prices into daily and weekly averages')
+    print('Finished compressing bitstamp BTC prices into daily and weekly averages.')
 
 # so main() isn't executed if file is imported
 if __name__ == "__main__":
