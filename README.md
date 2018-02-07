@@ -37,7 +37,7 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, and pr
 
 ## Generated Figures
 
-![](https://github.com/toadlyBroodle/bitcoin-analysis/)
-![](https://github.com/toadlyBroodle/bitcoin-analysis/)
-![](https://github.com/toadlyBroodle/bitcoin-analysis/)
-![](https://github.com/toadlyBroodle/bitcoin-analysis/)
+![price history and 3 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/price-history/figs/bitstamp-day-avg-price-3-exp-growth-curves-fut-extr.jpg)
+![log price history and 3 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/price-history/figs/bitstamp-day-avg-price-3-exp-growth-curves-fut-extr-logy.jpg)
+![transaction and utxo history and fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/tx-history/figs/transaction-utxo-fits.jpg)
+![log transaction and utxo history and fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/tx-history/figs/transaction-utxo-fits-logy.jpg)
