@@ -1,6 +1,6 @@
 Various scripts and data used to analyze the Bitcoin blockchain, network, and protocol.
 
-##Bitcoin price history
+## Bitcoin price history
 
  - _compress-btc-price-history.py_
    - Description: request Bitstamp trading history and process data into averaged daily and weekly price history data sets.
@@ -16,7 +16,7 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, and pr
      - Note: must manually import .csv files into Matlab tables to feed into function
      - input arguments: price table, log scale y-axis (boolean)
 
-##Bitcoin transaction and UTXO histories
+## Bitcoin transaction and UTXO histories
 
  - _compress-btc-tx-history.py_
    - Description: compress previously exported transaction and utxo count historical data by calculating daily and weekly averages.
