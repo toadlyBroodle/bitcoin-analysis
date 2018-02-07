@@ -34,3 +34,10 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, and pr
  - _generate_prehistory_price.py_
    - Description: populates .csv file with dummy price data from mining of first block to beginning of Bitstamp trading history.
      - This dummy data can be useful for improved curve fitting accuracy.
+
+## Generated Figures
+
+![](https://github.com/toadlyBroodle/bitcoin-analysis/)
+![](https://github.com/toadlyBroodle/bitcoin-analysis/)
+![](https://github.com/toadlyBroodle/bitcoin-analysis/)
+![](https://github.com/toadlyBroodle/bitcoin-analysis/)
