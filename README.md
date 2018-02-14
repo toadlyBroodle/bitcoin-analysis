@@ -7,7 +7,7 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, and pr
    - download updated trading history
      - source url: http://api.bitcoincharts.com/v1/csv/bitstampUSD.csv.gz
      - unzip bitstampUSD.csv.gz -> bitstampUSD.csv
-   - process bitstampUSD.csv 
+   - process bitstampUSD.csv
      - spit out average daily price history -> btcusd-avg-day-price.csv
      - spit out average weekly price history -> btcusd-avg-week-price.csv
 
@@ -37,7 +37,7 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, and pr
 
 ## Generated Figures
 
-![price history and 3 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/price-history/figs/bitstamp-day-avg-price-3-exp-growth-curves-fut-extr.jpg)
-![log price history and 3 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/price-history/figs/bitstamp-day-avg-price-3-exp-growth-curves-fut-extr-logy.jpg)
+![price history and 3 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/price-history/figs/feb-13-2018-price.jpg)
+![log price history and 3 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/price-history/figs/feb-13-2018-price-log.jpg)
 ![transaction and utxo history and fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/tx-history/figs/transaction-utxo-fits.jpg)
 ![log transaction and utxo history and fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/tx-history/figs/transaction-utxo-fits-logy.jpg)
