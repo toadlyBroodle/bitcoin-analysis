@@ -15,7 +15,7 @@ time_intervals = time_diff / sec_per_day
 price_per_day = 1 / time_intervals
 price = 0
 
-with open('prehistory_price.csv', 'w') as ph:
+with open('./data/prehistory_price.csv', 'w') as ph:
     while mining_epoc < trading_start_time:
         price += price_per_day
         ph.write(str(mining_epoc) + ', {}\n'.format(price))

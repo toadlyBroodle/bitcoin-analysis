@@ -25,9 +25,11 @@ def strip_decimals(floater):
 
 def main(argv):
 
-    local_csv_path = './bitstampUSD.csv'
-    local_gz_path = './bitstampUSD.csv.gz'
+    local_csv_path = './data/bitstampUSD.csv'
+    local_gz_path = './data/bitstampUSD.csv.gz'
     url = 'http://api.bitcoincharts.com/v1/csv/bitstampUSD.csv.gz'
+    avg_day_price_csv = './data/btcusd-avg-day-price.csv'
+    avg_week_price_csv = './data/btcusd-avg-week-price.csv'
 
     # catch SIGINTs and KeyboardInterrupts
     def signal_handler(signal, frame):
@@ -77,7 +79,7 @@ def main(argv):
         else:
             day_avg = int(avg_day_price / dc)
 
-            with open('btcusd-avg-day-price.csv', 'a') as compressed_csv: # [unixtime, avg_day_price]
+            with open(avg_day_price_csv, 'a') as compressed_csv: # [unixtime, avg_day_price]
                 # spit out entire table
                 compressed_csv.write(row[0] + ', {}\n'.format(str(day_avg)))
             #with open('X_File.txt', 'a') as compressed_dates:
@@ -91,7 +93,7 @@ def main(argv):
             if wc == 7:
                 avg_week_price = strip_decimals(str(avg_week_price / 7))
                 # spit out avg weekly data points
-                with open('btcusd-avg-week-price.csv', 'a') as compressed_csv: # [unixtime, avg_week_price]
+                with open(avg_week_price_csv, 'a') as compressed_csv: # [unixtime, avg_week_price]
                     compressed_csv.write(row[0] + ', {}\n'.format(avg_week_price))
 
                 wc=1
