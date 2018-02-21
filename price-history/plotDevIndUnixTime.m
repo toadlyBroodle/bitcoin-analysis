@@ -22,17 +22,12 @@ timeint = posixtime(dateint);
 timebrd = posixtime(datebrd);
 
 mobexpsubtime2001 = timemob(1:22);
-mobexpsubtime2011 = timemob(1:29);
+%mobexpsubtime2011 = timemob(1:29);
 mobexpsubperc2001 = percmob(1:22);
-mobexpsubperc2011 = percmob(1:29);
+%mobexpsubperc2011 = percmob(1:29);
 
-% mob exp subset (to 2001) fit coefs: 
-a = 6.865e-05;  
-b = 1.227e-08;
-%a11 = 5.923e-04;
-%b11 = 9.903e-09;
-mobexp2001fit = a*exp(b*mobexpsubtime2001);
-mobexp2001fitExtrpd = a*exp(b*mobexpsubtime2011);
+fitmob2001 = fit(mobexpsubtime2001,mobexpsubperc2001,'exp1');
+%fitmob2011 = fit(mobexpsubtime2011,mobexpsubperc2011,'exp1');
 
 % Plot world bank development indicators figure
 figure(2)
@@ -41,25 +36,22 @@ grid on
 
 ax1 = gca; % current axes
 ax1.YScale = 'log';
-%xmax1 = max(timemob(:));
-%xmin1 = min(timemob(:));
-%ax1.XLim = [xmin1,xmax1];
+xmax1 = max(timemob(:));
+xmin1 = min(timemob(:));
+ax1.XLim = [xmin1,xmax1];
 
-plot(timemob,percmob,'b','LineWidth',2);
-plot(mobexpsubtime2001,mobexp2001fit,'r','LineWidth',2);
-plot(mobexpsubtime2011,mobexp2001fitExtrpd,'r--','LineWidth',2);
-plot(timeint,percint,'m','LineWidth',2);
-plot(timebrd,percbrd,'g','LineWidth',2);
+plot(fitmob2001,'b--',timemob,percmob,'b');
+%plot(fitmob2011,'b:');
+plot(timeint,percint,'m');
+plot(timebrd,percbrd,'g');
 
 
-title('World bank development indicators data, logarithmic scale')
+title('World bank development indicators, global telecoms penetration')
 xlabel('Unix timestamp, seconds since epoch')
 ylabel('Percent of world population, %')
-legend('Mobile cellular subscriptions','Mobile cellular exponential fit to 2001',sprintf('y=%.3e*exp(%.3e*x)',a,b),'Internet users','Fixed broadband subscriptions');
+legend('Mobile cellular subscriptions',sprintf('y=%.3e*exp(%.3e*x)',fitmob2001.a,fitmob2001.b),'Internet users','Fixed broadband subscriptions');
 
 % axis for years
-ax2 = axes('Position',[.2 .88 .63 1e-12],'XAxisLocation','top','Color','none');
-xmax2 = max(2015);
-xmin2 = min(yearmob(:));
-ax2.XLim = [xmin2,xmax2];
+ax2 = axes('Position',[ax1.Position(1) .88 ax1.Position(3) 1e-12],'XAxisLocation','top','Color','none');
+ax2.XLim = [min(yearmob(:)),max(yearmob(:))];
 end
