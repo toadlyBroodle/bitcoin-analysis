@@ -14,9 +14,17 @@ priceJul2017 = btcusdavgdayprice{1:2103,2};
 priceNov2017 = btcusdavgdayprice{1:2226,2};
 
 % 3) create various arrays to fit transaction, utxo data
-txTime = txdaycount{:,1};
-txs = txdaycount{:,2};
-utxos = utxodaycount{:,2};
+%txTime = txdaycount{:,1};
+%txs = txdaycount{:,2};
+%utxos = utxodaycount{:,2};
+tutxo = utxocounthistorydayavg{:,1};
+cutxo = utxocounthistorydayavg{:,2};
+twithutxo = txstotalwithunspentoutputsdayavg{:,1};
+cwithutxo = txstotalwithunspentoutputsdayavg{:,2};
+tpersec = txsacceptedpersecondweekavg{:,1};
+cpersec = txsacceptedpersecondweekavg{:,2};
+tmempool = txsinmempooldayavg{:,1};
+cmempool = txsinmempooldayavg{:,2};
 
 % 4) create array of combined prehistoryprice and avgdayprice
 curvefitdata=outerjoin(prehistoryprice,btcusdavgdayprice,'MergeKeys', true);
@@ -41,6 +49,16 @@ di_mobcellexpdate = datetime(di_mobcell(:,1),12,31); % set dates to year ends
 di_mobcelltime = posixtime(di_mobcellexpdate);
 di_mobcellexptimesubset = di_mobcelltime(1:29);
 di_mobcellexpsubset = di_mobcell(1:29,2);
+
+% 8) traditional tech companies historical trading prices
+aplDate = AAPL{:,1};
+aplPrice = AAPL{:,2};
+gooDate = GOOG{:,1};
+gooPrice = GOOG{:,2};
+ibmDate = IBM{:,1};
+ibmPrice = IBM{:,2};
+msfDate = MSFT{:,1};
+msfPrice = MSFT{:,2};
 
 end
 
