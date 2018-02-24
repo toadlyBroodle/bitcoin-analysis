@@ -1,9 +1,10 @@
-function [ ] = plotPrice( avgPrice )
+function [ ] = plotPrice( btcusdavgdayprice )
 
 % Prepare arrays and tables of times and prices
-price = avgPrice{:,2};
-time = avgPrice{:,1};
-timeJul2017 = avgPrice{1:2103,1};
+price = btcusdavgdayprice{:,2};
+lnPrice = log(price);
+time = btcusdavgdayprice{:,1};
+timeJul2017 = btcusdavgdayprice{1:2103,1};
 timeFut = linspace(1.45e+9,1.55e+9,80);
 date = datetime(time,'ConvertFrom','posixtime');
 dateJul2017 = datetime(timeJul2017,'ConvertFrom','posixtime');

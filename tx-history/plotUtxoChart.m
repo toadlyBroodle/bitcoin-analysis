@@ -1,10 +1,13 @@
-function [ output_args ] = plotUtxoChart( txwithutxos, utxos, log_y )
+function [ output_args ] = plotUtxoChart( txstotalwithunspentoutputsdayavg, utxocounthistorydayavg, log_y )
 
 % Prepare arrays and tables of times and prices
-twithutxo = txwithutxos{:,1};
-cwithutxo = txwithutxos{:,2};
-tutxo = utxos{:,1};
-cutxo = utxos{:,2};
+timetxwithutxo = txstotalwithunspentoutputsdayavg{:,1};
+txwithutxo = txstotalwithunspentoutputsdayavg{:,2};
+timeutxo = utxocounthistorydayavg{:,1};
+utxo = utxocounthistorydayavg{:,2};
+
+lntxwithutxo = log(txwithutxo);
+lnutxo = log(utxo);
 
 timepastfut = linspace(1.23e+9,1.55e+9,80);
 datepastfut = datetime(timepastfut, 'ConvertFrom', 'posixtime');
@@ -17,9 +20,9 @@ wa=1.617e-05; % 9.036e-06, 1.206e-05
 wb=1.86e-08; % 1.899e-08
 ua=2.411; % 2.043
 ub=1.125e-08; % 1.137e-08
-fit1 = wa*exp(wb*twithutxo);
+fit1 = wa*exp(wb*timetxwithutxo);
 fit1f = wa*exp(wb*timepastfut);
-fit2 = ua*exp(ub*tutxo);
+fit2 = ua*exp(ub*timeutxo);
 fit2f = ua*exp(ub*timepastfut);
 
 % Plot daily price chart
@@ -34,11 +37,11 @@ else
     %xlim([1.45e+9 1.55e+9]);
 end
 
-plot(twithutxo,cwithutxo,'m','LineWidth',2);
-plot(twithutxo,fit1,'r--','LineWidth',2);
+plot(timetxwithutxo,txwithutxo,'m','LineWidth',2);
+plot(timetxwithutxo,fit1,'r--','LineWidth',2);
 %plot(timepastfut,fit1f,'r--','LineWidth',2);
-plot(tutxo,cutxo,'g','LineWidth',2);
-plot(tutxo,fit2,'b--','LineWidth',2);
+plot(timeutxo,utxo,'g','LineWidth',2);
+plot(timeutxo,fit2,'b--','LineWidth',2);
 %plot(timepastfut,fit2f,'b--','LineWidth',2);
 
 title('Daily transactions with UTXOs and UTXO counts, data from statoshi.info')

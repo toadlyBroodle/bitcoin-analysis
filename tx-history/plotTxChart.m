@@ -1,48 +1,43 @@
-function [ output_args ] = plotTxChart( txmempool, txpersec, log_y )
+function [  ] = plotTxChart( txsacceptedpersecondweekavg )
 
-% Prepare arrays and tables of times and prices
-tmempool = txmempool{:,1};
-cmempool = txmempool{:,2};
-tpersec = txpersec{:,1};
-cperday = txpersec{:,2} *60*60*24; % convert to tx/day
+xblock0 = 1.23e09;
 
-timepastfut = linspace(1.23e+9,1.55e+9,80);
-datepastfut = datetime(timepastfut, 'ConvertFrom', 'posixtime');
+% Prepare arrays and tables of transactions
+timetxpersec = txsacceptedpersecondweekavg{:,1};
+timeblock0(:,1) = timetxpersec(:,1) - xblock0; 
+txperday = txsacceptedpersecondweekavg{:,2} *60*60*24; % convert to tx/day
+lntxperday = log(txperday);
 
-% all coefficients derived from curve fitting tool
-    % i.e.
-    %   fit(time,txs,'exp1')
-    %   fit(time,utxos,'exp1')
-ma = 5.57e-10;
-mb = 2.113e-08;
-pa = 2.303e-06 *60*60*24;
-pb = 9.332e-09;
-fit1 = ma*exp(mb*tmempool);
-fit1f = ma*exp(mb*timepastfut);
-fit2 = pa*exp(pb*tpersec);
-fit2f = pa*exp(pb*timepastfut);
+timepastfut = linspace(0,1.55e+9-xblock0,20);
+
+% fit data
+%fittxperday = fit(timetxpersec,txperday,'exp1');
+%extline = fittxperday.a*exp(fittxperday.b*timepastfut(:));
+fittxperday = fit(timeblock0,lntxperday,'poly1')
+extline = fittxperday.p1*timepastfut(:)+fittxperday.p2;
+
+yblock0 = 1;
+fitblock0 = fit(timeblock0,lntxperday,'p1*x+1')
+extblock0 = fitblock0.p1*timepastfut(:)+yblock0;
 
 % Plot daily price chart
 figure(2)
 hold on
 grid on
-% linear or log y-axis?
-if (log_y)
-    set(gca, 'YScale', 'log');
-    %ylim([1 50000])
-else
-    %xlim([1.45e+9 1.55e+9]);
-end
 
-plot(tmempool,cmempool,'b','LineWidth',2);
-plot(tmempool,fit1,'r--','LineWidth',2);
-plot(tpersec,cperday,'m','LineWidth',2);
-plot(tpersec,fit2,'g--','LineWidth',2);
+plot(timeblock0,lntxperday,'b');
+plot(timepastfut,extline,'r--');
+plot(timepastfut,extblock0,'g--');
 
-title('Daily transactions in mempool and accepted transactions, data from statoshi.info')
-xlabel('Unix timestamp, seconds since epoch')
-ylabel('Transaction counts')
+title('Daily accepted transactions')
+xlabel('Time since block0, [seconds]')
+ylabel('Natural logarithm of transaction counts, ln(txs)')
 %xtickformat('y');
-legend('Transactions in mempool',sprintf('Exponential fit of mempool txs: y=%.3e*exp(%.3e*x)',ma,mb),'Accepted transactions',sprintf('Exponential fit of accepted txs: y=%.3e*exp(%.3e*x)',pa,pb));
+legend('Accepted transactions',...
+    sprintf('Poly1 fit of accepted txs: y=%.3e*x+%.3e',fittxperday.p1,fittxperday.p2),...
+    sprintf('Block0 constrained poly1 fit: y=%.3e*x',fitblock0.p1));
+
+%datepastfut = datetime(timepastfut, 'ConvertFrom', 'posixtime');
+
 
 end
