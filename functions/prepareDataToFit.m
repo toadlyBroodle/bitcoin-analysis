@@ -52,13 +52,48 @@ di_mobcellexpsubset = di_mobcell(1:29,2);
 
 % 8) traditional tech companies historical trading prices
 aplDate = AAPL{:,1};
+aplTime = posixtime(aplDate);
 aplPrice = AAPL{:,2};
+amzDate = AMZN{:,1};
+amzTime = posixtime(amzDate);
+amzPrice = AMZN{:,2};
 gooDate = GOOG{:,1};
+gooTime = posixtime(gooDate);
 gooPrice = GOOG{:,2};
 ibmDate = IBM{:,1};
+ibmTime = posixtime(ibmDate);
 ibmPrice = IBM{:,2};
 msfDate = MSFT{:,1};
+msfTime = posixtime(msfDate);
 msfPrice = MSFT{:,2};
+lnapl = log(aplPrice);
+lnamz = log(amzPrice);
+lngoo = log(gooPrice);
+lnibm = log(ibmPrice);
+lnmsf = log(msfPrice);
+
+% 9) oxt.me statistics
+timebdd = posixtime(statsbdd{:,1});
+timeblocksize = posixtime(statsblocksize{:,1});
+timenbtotaladdr = posixtime(statsnbtotaladdr{:,1});
+timenbtx = posixtime(statsnbtx{:,1});
+timenbutxo = posixtime(statsnbutxo{:,1});
+timenewaddr = posixtime(statsnewaddr{:,1});
+bdd = statsbdd{:,2};
+blocksize = statsblocksize{:,2};
+nbtotaladdr = statsnbtotaladdr{:,2};
+nbtx = statsnbtx{:,2};
+nbutxo = statsnbutxo{:,2};
+newaddr = statsnewaddr{:,2};
+lnbdd = log(bdd);
+lnblocksize = log(blocksize);
+lntotaladdr = log(nbtotaladdr);
+lntx = log(nbtx);
+lnutxo = log(nbutxo);
+lnnewaddr = log(newaddr);
+timeblocksizeOct2012 = timeblocksize(1:1373);
+blocksizeOct2012 = blocksize(1:1373);
+lnblocksizeOct2012 = log(blocksizeOct2012);
 
 end
 
