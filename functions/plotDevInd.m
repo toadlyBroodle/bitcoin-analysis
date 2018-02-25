@@ -1,4 +1,4 @@
-function [ ] = plotDevIndUnixTime( wldbnkdevind )
+function [ ] = plotDevInd( wldbnkdevind )
 
 % Prepare arrays and tables of times and prices
 di_mobcell = [wldbnkdevind{1,21:57}',wldbnkdevind{2,21:57}'];
