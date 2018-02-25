@@ -1,24 +1,22 @@
-function [ ] = plotTradingStartConstrained( avgPrice)
+function [ ] = plotTradingStartConstrained( btcusdavgdayprice )
 
 timeOfBitstamp = 1.316e+09;
-
-% Prepare arrays and tables of times and prices
-price = avgPrice{:,2};
-time = avgPrice{:,1};
-timeFromTrading(:,1) = time(:,1) - timeOfBitstamp;
-timeExtrapd = linspace(1.52e+09 - timeOfBitstamp, 1.55e+09 - timeOfBitstamp,20);
-
-date = datetime(time,'ConvertFrom','posixtime');
-dateFut = datetime(timeExtrapd + timeOfBitstamp,'ConvertFrom','posixtime');
-% coefficient derived from curve fitting tool, i.e.:
-    % y(x)=exp(b*x) <-- at x=0, a=1
-b = 4.459e-08; % 4.459e-08
-
-tradingExpFun = exp(b*timeFromTrading);
-tradingExpFunFut = exp(b*timeExtrapd);
-
 minTime = 0;
 maxTime = 1.55e+09 - timeOfBitstamp;
+
+% Prepare arrays and tables of times and prices
+price = btcusdavgdayprice{:,2};
+lnPrice = log(price);
+time = btcusdavgdayprice{:,1};
+timeExt = linspace(minTime, maxTime,20);
+
+% coefficient derived from curve fitting tool, i.e.:
+    % y(x)=exp(b*x) <-- at x=0, a=1
+b = 4.588e-08; % 4.459e-08
+
+fitExp = exp(b*timeExt);
+fitPoly = fit(time,lnPrice,'poly1');
+fitPolyExp = fitPoly.p1*timeExt+fitPoly.p2;
 
 % Plot daily price chart
 figure(2)
@@ -26,33 +24,33 @@ hold on
 grid on
 
 ax = gca;
-set(ax, 'YScale', 'log');
 xlim([minTime maxTime]);
 
-plot(date,price,'LineWidth',2);
-plot(date,tradingExpFun,'r','LineWidth',2);
-plot(dateFut,tradingExpFunFut,'r--','LineWidth',2);
+plot(time,lnprice,'b');
+plot(timeExt,fitPolyExp,'r--','LineWidth',2);
 
-title('Daily averaged btcusd trading price, logarithmic scale')
-xlabel('Time, year')
-ylabel('Bitcoin price, USD/BTC')
-legend('Daily averaged Bitstamp trades','Constrained exponential fit to 18-Feb-2018',sprintf('y=*exp(%.3e*x), where x=0 at %.3e Unix timestamp',b, timeOfBitstamp));
+title('Daily averaged Bitstamp Bitcoin trading price')
+xlabel('Unix timestamp, [seconds]')
+ylabel('Bitcoin price, [USD/BTC]')
+legend('Ln(Bitcoin price, [USD/BTC])',...
+    sprintf('Constrained poly1 fit: y=%.3e*x+%.3e, where x=0 at %.3e Unix timestamp',fitPoly.p1,fitPoly.p2,timeOfBitstamp));
 
 % axis for years
 ax2 = axes('Position',[ax.Position(1) .88 ax.Position(3) 1e-12],'XAxisLocation','top','Color','none');
-ax2.XLim = [minTime,maxTime];
+ax2.XLim = [datetime(1.23e09,'ConvertFrom','posixtime'),datetime(1.55e09,'ConvertFrom','posixtime')];
 
 % inset linear plot
 ax3 = axes('Position',[.66 .14 .25 .25],...
-    'XAxisLocation','top','YAxisLocation','right',...
+    'XAxisLocation','top','YAxisLocation','left',...
     'YScale','linear');
 
 hold on;
-plot(date,price);
-plot(date,tradingExpFun,'r');
-plot(dateFut,tradingExpFunFut,'r--');
+plot(time,price,'m');
+plot(timeExt,fitExp,'g--','LineWidth',2);
 
-set(ax3,'XTick',[],'YTick',[],'XLabel',[],'YLabel',[],...
-    'XLim',[min(date(:)) max(dateFut(:))],'YLim',[min(price(:)) max(price(:))]);
+set(ax3,'XTick',[],'XLabel',[],'YLabel',[],...
+    'XLim',[minTime maxTime],'YLim',[min(price(:)) max(price(:))]);
+
+legend('Daily averaged Bitstamp trades',sprintf('Constrained exp1 fit: y=exp(%.3e*x), where x=0 at %.3e Unix timestamp',b, timeOfBitstamp));
 
 end

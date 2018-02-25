@@ -19,17 +19,13 @@ def get_year(stamp):
 def get_date_string(stamp):
     return datetime.datetime.fromtimestamp(int(stamp)).strftime('%Y, %m, %d, ')
 
-def strip_decimals(floater):
-    splitter = floater.split('.')
-    return int(splitter[0])
-
 def main(argv):
 
-    local_csv_path = './data/bitstampUSD.csv'
-    local_gz_path = './data/bitstampUSD.csv.gz'
+    local_csv_path = 'data/bitstampUSD.csv'
+    local_gz_path = 'data/bitstampUSD.csv.gz'
     url = 'http://api.bitcoincharts.com/v1/csv/bitstampUSD.csv.gz'
-    avg_day_price_csv = './data/btcusd-avg-day-price.csv'
-    avg_week_price_csv = './data/btcusd-avg-week-price.csv'
+    avg_day_price_csv = 'data/day/btcusd-avg-price.csv'
+    avg_week_price_csv = 'data/week/btcusd-avg-price.csv'
 
     # catch SIGINTs and KeyboardInterrupts
     def signal_handler(signal, frame):
@@ -63,6 +59,12 @@ def main(argv):
     with open(local_csv_path, 'r') as f:
         trades = csv.reader(f.readlines(), dialect='excel', delimiter=',') # trade format: [unixtime, price, amount]
 
+    # don't append to old files
+    if os.path.isfile(avg_day_price_csv):
+        os.remove(avg_day_price_csv)
+    if os.path.isfile(avg_week_price_csv):
+        os.remove(avg_week_price_csv)
+
     line_num=0
     dc=1
     pastday=None
@@ -74,10 +76,14 @@ def main(argv):
     for row in trades:
         day = get_day(row[0])
 
+        # omit 0s so as not to calculate undefined ln(0)
+        if row[1] == 0:
+            continue
+
         if day == pastday:
-            avg_day_price += strip_decimals(row[1])
+            avg_day_price += float(row[1])
         else:
-            day_avg = int(avg_day_price / dc)
+            day_avg = avg_day_price / dc
 
             with open(avg_day_price_csv, 'a') as compressed_csv: # [unixtime, avg_day_price]
                 # spit out entire table
@@ -91,7 +97,7 @@ def main(argv):
 
             avg_week_price += day_avg
             if wc == 7:
-                avg_week_price = strip_decimals(str(avg_week_price / 7))
+                avg_week_price = str(avg_week_price / 7)
                 # spit out avg weekly data points
                 with open(avg_week_price_csv, 'a') as compressed_csv: # [unixtime, avg_week_price]
                     compressed_csv.write(row[0] + ', {}\n'.format(avg_week_price))

@@ -9,9 +9,9 @@ percmob = di_mobcell(:,2);
 percint = di_intusers(:,2);
 percbrd = di_brdbnd(:,2);
 
-lnPercMob = log(percmob);
-lnPercInt = log(percint);
-lnPercBrd = log(percbrd);
+lnpercmob = log(percmob);
+lnpercint = log(percint);
+lnpercbrd = log(percbrd);
 
 yearmob = di_mobcell(:,1);
 yearint = di_intusers(:,1);
@@ -26,14 +26,14 @@ timemob = posixtime(datemob);
 timeint = posixtime(dateint);
 timebrd = posixtime(datebrd);
 
-mobexpsubtime2001 = timemob(1:22);
-%mobexpsubtime2011 = timemob(1:29);
-mobexpsubperc2001 = percmob(1:22);
-%mobexpsubperc2011 = percmob(1:29);
-lnPerc2001 = log(mobexpsubperc2001);
+mobsubtime2001 = timemob(1:22);
+mobsubperc2001 = percmob(1:22);
+lnmobsubperc2001 = log(mobsubperc2001);
 
-fitmob2001 = fit(mobexpsubtime2001,mobexpsubperc2001,'exp1');
-%fitmob2011 = fit(mobexpsubtime2011,mobexpsubperc2011,'exp1');
+fitmobexp2001 = fit(mobsubtime2001,mobsubperc2001,'exp1');
+fitmobexpext2001 = fitmobexp2001.a*exp(fitmobexp2001.b*timemob);
+fitmobpoly2001 = fit(mobsubtime2001,lnmobsubperc2001,'poly1');
+fitmobpolyext2001 = fitmobpoly2001.p1*timemob+fitmobpoly2001.p2;
 
 % Plot world bank development indicators figure
 figure(2)
@@ -41,36 +41,48 @@ hold on
 grid on
 
 ax1 = gca; % current axes
-ax1.YScale = 'log';
 xmax1 = max(timemob(:));
 xmin1 = min(timemob(:));
 ax1.XLim = [xmin1,xmax1];
+ax1.YLim = [min(lnpercmob(:)) max(lnpercmob(:))];
 
-plot(fitmob2001,'b--',timemob,percmob,'b');
-%plot(fitmob2011,'b:');
-plot(timeint,percint,'m');
-plot(timebrd,percbrd,'g');
+plot(timemob,lnpercmob,'b');
+plot(timemob,fitmobpolyext2001,'b--','LineWidth',2);
+plot(timeint,lnpercint,'m');
+plot(timebrd,lnpercbrd,'g');
 
 
-title('World bank development indicators, global telecoms penetration')
-xlabel('Unix timestamp, seconds since epoch')
-ylabel('Percent of world population, %')
-legend('Mobile cellular subscriptions',sprintf('y=%.3e*exp(%.3e*x)',fitmob2001.a,fitmob2001.b),'Internet users','Fixed broadband subscriptions');
+title({'World bank development indicators:';'global telecoms penetration and early mobile cellular growth exp1 and poly1 fits'})
+xlabel('Unix timestamp, [seconds]')
+ylabel('Ln(percent of world population, [%])')
+legend('Ln(mobile cellular subscriptions)',...
+    sprintf('Poly1 fit to 2001: ln(y)=%.3e*x+(%.3e)',fitmobpoly2001.p1,fitmobpoly2001.p2),...
+    'Ln(Internet users)',...
+    'Ln(fixed broadband subscriptions)');
 
 % axis for years
-ax2 = axes('Position',[ax1.Position(1) .88 ax1.Position(3) 1e-12],'XAxisLocation','top','Color','none');
+ax2 = axes('Position',[ax1.Position(1) .88 ax1.Position(3) 1e-12],...
+    'XAxisLocation','top',...
+    'Color','none');
 ax2.XLim = [min(yearmob(:)),max(yearmob(:))];
 
 % inset linear plot
 ax3 = axes('Position',[.66 .14 .25 .25],...
-    'XAxisLocation','top','YAxisLocation','right',...
+    'XAxisLocation','top','YAxisLocation','left',...
     'YScale','linear');
 
 hold on;
-plot(fitmob2001,'b--',timemob,percmob,'b');
+plot(timemob,percmob,'c');
+plot(timemob,fitmobexpext2001,'c--','LineWidth',2);
 plot(timeint,percint,'m');
 plot(timebrd,percbrd,'g');
 
-set(ax3,'XTick',[],'YTick',[],'XLabel',[],'YLabel',[],...
+set(ax3,'XTick',[],'XLabel',[],'YLabel',[],...
     'XLim',[xmin1 xmax1],'YLim',[min(percmob(:)) max(percmob(:))]);
+
+legend('Mobile cellular subscriptions',...
+    sprintf('Exp1 fit to 2001: y=%.3e*exp(%.3e*x)',fitmobexp2001.a,fitmobexp2001.b),...
+    'Internet users',...
+    'Fixed broadband subscriptions');
+
 end
