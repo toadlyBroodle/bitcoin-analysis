@@ -46,6 +46,10 @@ def main(argv):
                 print("Caught error: " + str(e))
                 continue
 
+            # omit 0s so as not to calculate undefined ln(0)
+            if stat == 0:
+                continue
+
             with open(day_path, 'a') as compressed_csv: # [unixtime, avg_day_tx_count]
                 # spit out avg daily data points
                 compressed_csv.write(time_stamp + ', {}\n'.format(stat))
