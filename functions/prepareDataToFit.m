@@ -12,6 +12,7 @@ timeNov2017 = btcusdavgdayprice{1:2226,1};
 price = btcusdavgdayprice{:,2};
 priceJul2017 = btcusdavgdayprice{1:2103,2};
 priceNov2017 = btcusdavgdayprice{1:2226,2};
+btcusdavgprice([1,6,25,44:45,48:50,62,65,68:69,96,101],:) = []; % delete zeros
 
 % 3) create various arrays to fit transaction, utxo data
 %txTime = txdaycount{:,1};
