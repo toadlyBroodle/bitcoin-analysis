@@ -49,8 +49,8 @@ ax1.XLim = [xmin1,xmax1];
 ax1.YLim = [min(lnpercmob(:)) max(lnpercmob(:))];
 
 plot(timemob,lnpercmob,'b');
-plot(timemob,lnfitmobexpext2001,'r--','LineWidth',2);
-plot(timemob,fitmobpolyext2001,'g--','LineWidth',2);
+plot(timemob,lnfitmobexpext2001,'g--','LineWidth',2);
+plot(timemob,fitmobpolyext2001,'r--','LineWidth',2);
 plot(timeint,lnpercint,'m');
 plot(timebrd,lnpercbrd,'c');
 
@@ -77,8 +77,8 @@ ax3 = axes('Position',[.66 .14 .25 .25],...
 
 hold on;
 plot(timemob,percmob,'b');
-plot(timemob,fitmobexpext2001,'r--','LineWidth',2);
-plot(timemob,expfitmobpolyext2001,'g--','LineWidth',2);
+plot(timemob,fitmobexpext2001,'g--','LineWidth',2);
+plot(timemob,expfitmobpolyext2001,'r--','LineWidth',2);
 plot(timeint,percint,'m');
 plot(timebrd,percbrd,'c');
 
