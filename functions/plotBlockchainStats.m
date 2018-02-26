@@ -32,20 +32,23 @@ plot(timepastfut,lnfitexpext,'g--','LineWidth',2);
 plot(timepastfut,fitpolyext,'r--','LineWidth',2);
 
 % uncomment respective titles
-%stattit = 'Bitcoin days destroyed (BDD)';
+%stattit = 'daily Bitcoin days destroyed (BDD)';
 %staty = 'BDD';
 %stattit = 'daily cumulative Bitcoin block size';
 %staty = 'Cumulative block size, [bytes]';
-%stattit = 'total Bitcoin addresses';
+%stattit = 'daily cumulative Bitcoin mining fees';
+%staty = 'Mining fees, [Satoshis]';
+%stattit = 'daily Bitcoin payments estimate';
+%staty = 'Payments (estimate)';
+%stattit = 'daily total Bitcoin addresses';
 %staty = 'Total addresses';
-%stattit = 'accepted Bitcoin transactions';
+%stattit = 'daily accepted Bitcoin transactions';
 %staty = 'Accepted transactions';
-%stattit = 'Bitcoin UTXOs';
-%staty = 'UTXOs';
-%stattit = 'new Bitcoin addresses';
-%staty = 'New addresses';
-stattit = 'Bitcoin payments estimate (UTXOsCreated - Txs - OpReturn)';
-staty = 'Payments (estimate)';
+%stattit = 'total Bitcoin UTXOs';
+%staty = 'Total UTXOs';
+stattit = 'daily new Bitcoin addresses';
+staty = 'New addresses';
+
 
 lnstaty = sprintf('Ln(%s)',staty);
 
