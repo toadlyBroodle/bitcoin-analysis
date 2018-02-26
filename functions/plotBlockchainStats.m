@@ -32,10 +32,10 @@ plot(timepastfut,lnfitexpext,'g--','LineWidth',2);
 plot(timepastfut,fitpolyext,'r--','LineWidth',2);
 
 % uncomment respective titles
-stattit = 'Bitcoin days destroyed (BDD)';
-staty = 'BDD';
-%stattit = 'Bitcoin block size';
-%staty = 'Block size, [bytes]';
+%stattit = 'Bitcoin days destroyed (BDD)';
+%staty = 'BDD';
+%stattit = 'daily cumulative Bitcoin block size';
+%staty = 'Cumulative block size, [bytes]';
 %stattit = 'total Bitcoin addresses';
 %staty = 'Total addresses';
 %stattit = 'accepted Bitcoin transactions';
@@ -44,10 +44,12 @@ staty = 'BDD';
 %staty = 'UTXOs';
 %stattit = 'new Bitcoin addresses';
 %staty = 'New addresses';
+stattit = 'Bitcoin payments estimate (UTXOsCreated - Txs - OpReturn)';
+staty = 'Payments (estimate)';
 
 lnstaty = sprintf('Ln(%s)',staty);
 
-title(sprintf('Weekly averaged %s with exp1 and poly1 best fits',stattit))
+title({sprintf('Weekly averaged %s',stattit);'with exp1 and poly1 best fits'})
 ylabel(lnstaty)
 xlabel('Unix timestamp, [seconds]')
 %xtickformat('y');
