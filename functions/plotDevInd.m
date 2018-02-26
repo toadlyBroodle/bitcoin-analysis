@@ -32,8 +32,10 @@ lnmobsubperc2001 = log(mobsubperc2001);
 
 fitmobexp2001 = fit(mobsubtime2001,mobsubperc2001,'exp1');
 fitmobexpext2001 = fitmobexp2001.a*exp(fitmobexp2001.b*timemob);
+lnfitmobexpext2001 = log(fitmobexpext2001);
 fitmobpoly2001 = fit(mobsubtime2001,lnmobsubperc2001,'poly1');
 fitmobpolyext2001 = fitmobpoly2001.p1*timemob+fitmobpoly2001.p2;
+expfitmobpolyext2001 = exp(fitmobpolyext2001);
 
 % Plot world bank development indicators figure
 figure(2)
@@ -47,18 +49,20 @@ ax1.XLim = [xmin1,xmax1];
 ax1.YLim = [min(lnpercmob(:)) max(lnpercmob(:))];
 
 plot(timemob,lnpercmob,'b');
-plot(timemob,fitmobpolyext2001,'b--','LineWidth',2);
+plot(timemob,lnfitmobexpext2001,'r--','LineWidth',2);
+plot(timemob,fitmobpolyext2001,'g--','LineWidth',2);
 plot(timeint,lnpercint,'m');
-plot(timebrd,lnpercbrd,'g');
+plot(timebrd,lnpercbrd,'c');
 
 
 title({'World bank development indicators:';'global telecoms penetration and early mobile cellular growth exp1 and poly1 fits'})
 xlabel('Unix timestamp, [seconds]')
 ylabel('Ln(percent of world population, [%])')
-legend('Ln(mobile cellular subscriptions)',...
+legend('Mobile cellular subscriptions',...
+    sprintf('Exp1 fit to 2001: y=%.3e*exp(%.3e*x)',fitmobexp2001.a,fitmobexp2001.b),...
     sprintf('Poly1 fit to 2001: ln(y)=%.3e*x+(%.3e)',fitmobpoly2001.p1,fitmobpoly2001.p2),...
-    'Ln(Internet users)',...
-    'Ln(fixed broadband subscriptions)');
+    'Internet users',...
+    'Fixed broadband subscriptions');
 
 % axis for years
 ax2 = axes('Position',[ax1.Position(1) .88 ax1.Position(3) 1e-12],...
@@ -72,17 +76,14 @@ ax3 = axes('Position',[.66 .14 .25 .25],...
     'YScale','linear');
 
 hold on;
-plot(timemob,percmob,'c');
-plot(timemob,fitmobexpext2001,'c--','LineWidth',2);
+plot(timemob,percmob,'b');
+plot(timemob,fitmobexpext2001,'r--','LineWidth',2);
+plot(timemob,expfitmobpolyext2001,'g--','LineWidth',2);
 plot(timeint,percint,'m');
-plot(timebrd,percbrd,'g');
+plot(timebrd,percbrd,'c');
 
-set(ax3,'XTick',[],'XLabel',[],'YLabel',[],...
+set(ax3,'XTick',[],'XLabel',[],...
     'XLim',[xmin1 xmax1],'YLim',[min(percmob(:)) max(percmob(:))]);
 
-legend('Mobile cellular subscriptions',...
-    sprintf('Exp1 fit to 2001: y=%.3e*exp(%.3e*x)',fitmobexp2001.a,fitmobexp2001.b),...
-    'Internet users',...
-    'Fixed broadband subscriptions');
-
+ylabel(ax3,'Percent of world population, [%]');
 end
