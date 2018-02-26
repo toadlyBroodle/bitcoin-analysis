@@ -13,8 +13,10 @@ timepastfut = linspace(minTime,maxTime,20);
 % fit data
 fitexp = fit(time,stats,'exp1');
 fitexpext = fitexp.a*exp(fitexp.b*timepastfut(:));
+lnfitexpext = log(fitexpext);
 fitpoly = fit(time,lnstats,'poly1');
 fitpolyext = fitpoly.p1*timepastfut(:)+fitpoly.p2;
+expfitpolyext = exp(fitpolyext);
 
 % Plot daily price chart
 figure(2)
@@ -26,27 +28,31 @@ xlim([minTime maxTime]);
 ylim([min(lnstats(:)) max(lnstats(:))]);
 
 plot(time,lnstats,'b');
+plot(timepastfut,lnfitexpext,'g--','LineWidth',2);
 plot(timepastfut,fitpolyext,'r--','LineWidth',2);
 
 % uncomment respective titles
-%stattit = 'Bitcoin days destroyed (BDD)';
-%statx = 'Ln(BDD)';
+stattit = 'Bitcoin days destroyed (BDD)';
+staty = 'BDD';
 %stattit = 'Bitcoin block size';
-%statx = 'Ln(block size, [bytes]),';
+%staty = 'Block size, [bytes]';
 %stattit = 'total Bitcoin addresses';
-%statx = 'Ln(total addresses)';
+%staty = 'Total addresses';
 %stattit = 'accepted Bitcoin transactions';
-%statx = 'Ln(accepted transactions)';
+%staty = 'Accepted transactions';
 %stattit = 'Bitcoin UTXOs';
-%statx = 'Ln(UTXOs)';
-stattit = 'new Bitcoin addresses';
-statx = 'Ln(new addresses)';
+%staty = 'UTXOs';
+%stattit = 'new Bitcoin addresses';
+%staty = 'New addresses';
+
+lnstaty = sprintf('Ln(%s)',staty);
 
 title(sprintf('Weekly averaged %s with exp1 and poly1 best fits',stattit))
-ylabel(statx)
+ylabel(lnstaty)
 xlabel('Unix timestamp, [seconds]')
 %xtickformat('y');
-legend(statx,...
+legend(staty,...
+    sprintf('Exp1 fit: y=%.3e*exp(%.3e*x)',fitexp.a,fitexp.b),...
     sprintf('Poly1 fit: ln(y)=%.3e*x+(%.3e)',fitpoly.p1,fitpoly.p2));
 
 % axis for years
@@ -62,14 +68,14 @@ ax3 = axes('Position',[.66 .14 .25 .25],...
 
 hold on;
 
-plot(time,stats,'m');
+plot(time,stats,'b');
 plot(timepastfut,fitexpext,'g--','LineWidth',2);
+plot(timepastfut,expfitpolyext,'r--','LineWidth',2);
 
-set(ax3,'XTick',[],'XLabel',[],'YLabel',[],...
-    'XLim',[minTime maxTime],'YLim',[min(stats(:)) max(stats(:))]);
-
-legend(stattit,...
-    sprintf('Exp1 fit: y=%.3e*exp(%.3e*x)',fitexp.a,fitexp.b));
-
+ylabel(ax3,staty);
+ax3.XTick = [];
+ax3.XLabel = [];
+ax3.XLim = [minTime maxTime];
+ax3.YLim = [min(stats(:)) max(stats(:))];
 
 end
