@@ -46,9 +46,10 @@ plot(timepastfut,fitpolyext,'r--','LineWidth',2);
 %staty = 'Accepted transactions';
 %stattit = 'total Bitcoin UTXOs';
 %staty = 'Total UTXOs';
-stattit = 'daily new Bitcoin addresses';
-staty = 'New addresses';
-
+%stattit = 'daily new Bitcoin addresses';
+%staty = 'New addresses';
+stattit = 'daily BTC value transferred';
+staty = 'BTC transferred, [Satoshis]';
 
 lnstaty = sprintf('Ln(%s)',staty);
 

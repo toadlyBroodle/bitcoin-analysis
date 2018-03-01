@@ -64,18 +64,21 @@ ax2 = axes('Position',[ax.Position(1) .88 ax.Position(3) 1e-12],...
     'Color','none');
 
 % inset linear plot
-ax3 = axes('Position',[.77 .14 .15 .15],...
-    'XAxisLocation','top','YAxisLocation','right',...
+ax3 = axes('Position',[.715 .14 .2 .2],...
+    'XAxisLocation','top','YAxisLocation','left',...
     'YScale','linear');
 
 hold on;
+grid on;
 plot(ibmTime,ibmPrice,'c');
 plot(msfTime,msfPrice,'b');
 plot(aplTime,aplPrice,'m');
 plot(amzTime,amzPrice,'g');
 plot(gooTime,gooPrice,'r');
 
-set(ax3,'XTick',[],'YTick',[],'XLabel',[],'YLabel',[],...
+set(ax3,'XTick',[],'XLabel',[],...
     'XLim',[minTime maxTime],'YLim',[min(ibmPrice(:)) max(gooPrice(:))]);
-%title('Linear plot','FontWeight','normal','FontSize',10);
+
+ylabel(ax3,'Trading price USD');
+
 end
