@@ -1,12 +1,12 @@
-function [ ] = plotPriceFits( btcusdavgdayprice )
+function [ ] = plotPriceFits( btcusdavgprice )
 
 subsetCellEnd = 2103;
 
 % Prepare arrays and tables of times and prices
-time = btcusdavgdayprice{:,1};
-timeJul = btcusdavgdayprice{1:subsetCellEnd,1};
-price = btcusdavgdayprice{:,2};
-priceJul = btcusdavgdayprice{1:subsetCellEnd,2};
+time = btcusdavgprice{:,1};
+timeJul = btcusdavgprice{1:subsetCellEnd,1};
+price = btcusdavgprice{:,2};
+priceJul = btcusdavgprice{1:subsetCellEnd,2};
 lnprice = log(price);
 lnpriceJul = log(priceJul);
 
@@ -37,14 +37,14 @@ hold on
 grid on
 
 ax = gca;
-ylim([min(lnprice(:)) max(lnprice(:))]);
+ylim([min(lnprice(:)) 11]);
 xlim([minTime maxTime]);
 
 plot(time,lnprice,'b');
 plot(timeExt,lnfitExpExt,'g--','LineWidth',2);
 plot(timeExt,fitPolyExt,'r--','LineWidth',2);
-plot(timeExt,lnfitExpJulExt,'m--','LineWidth',2);
-plot(timeExt,fitPolyJulExt,'c--','LineWidth',2);
+plot(timeExt,lnfitExpJulExt,'c:','LineWidth',2);
+plot(timeExt,fitPolyJulExt,'m:','LineWidth',2);
 
 title({'Daily averaged Bitstamp Bitcoin trading price:';...
     'full and partial (to Jul-2017) unconstrained exp1 and poly1 fits'});
@@ -73,8 +73,8 @@ grid on;
 plot(time,price,'b');
 plot(timeExt,fitExpExt,'g--','LineWidth',2);
 plot(timeExt,expfitPolyExt,'r--','LineWidth',2);
-plot(timeExt,fitExpJulExt,'m--','LineWidth',2);
-plot(timeExt,expfitPolyJulExt,'c--','LineWidth',2);
+plot(timeExt,fitExpJulExt,'c:','LineWidth',2);
+plot(timeExt,expfitPolyJulExt,'m:','LineWidth',2);
 
 set(ax3,'XTick',[],'XLabel',[],...
     'XLim',[minTime maxTime],'YLim',[minPrice 20000]);
