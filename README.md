@@ -37,6 +37,6 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, and pr
 
 ## Generated Figures
 
-![price history and full/partial exp1, poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/figs/bitstamp-btcusd-trading-price-full-partial-exp1-poly1-fits.png)
-![top tech stock price poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/figs/top-corp-tech-stock-prices-week-fits.png)
-![telecoms penetration expl1, poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/figs/world-bank-development-indicators-telecoms-penetration-exp1-poly1-fit.png)
+![price history and full, partial exp1, poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/bitstamp-btcusd-trading-price-full-partial-exp1-poly1-fits.png)
+![top tech stock price poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/top-corp-tech-stock-prices-week-fits.png)
+![telecoms penetration expl1, poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/world-bank-development-indicators-telecoms-penetration-exp1-poly1-fit.png)
