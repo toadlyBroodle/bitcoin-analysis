@@ -37,6 +37,7 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, protoc
 
 ## Generated Figures
 
-![BTC price history full, unconstrained, daily, exp1 and poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/bitstamp-btcusd-trading-price-full-day-exp1-poly1-fits-24Jun2018.png)
-![top tech stock price poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/top-corp-tech-stock-prices-week-fits.png)
-![telecoms penetration expl1, poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/world-bank-development-indicators-telecoms-penetration-exp1-poly1-fit.png)
+![BTC price history full, unconstrained, daily, exp1 and poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/Jun30/bitstamp-btcusd-trading-price-full-week-exp1-poly1-fits-24Jun2018.png)
+![blockchain stats: fees](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/Jun30/blkchn-stats-fees-exp1-poly1-fits.png)
+![top tech stock price poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/Mar22/top-corp-tech-stock-prices-week-fits.png)
+![telecoms penetration expl1, poly1 fits](https://github.com/toadlyBroodle/bitcoin-analysis/blob/master/figs/Mar22/world-bank-development-indicators-telecoms-penetration-exp1-poly1-fit.png)
