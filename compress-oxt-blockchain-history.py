@@ -14,7 +14,7 @@ def main(argv):
         Format daily and calculate weekly averages of daily blockchain statistics, previously exported from http://oxt.me.
     '''
 
-    file_names = ['stats_bdd','stats_blocksize','stats_nb_total_addr','stats_nb_tx','stats_nb_utxo','stats_new_addr','stats_nb_payments','stats_fee','stats_vlm_out']
+    file_names = ['stats_addr_bl_dist','stats_bdd','stats_fee','stats_nb_tx','stats_new_addr','stats_txo_in','stats_txo_out','stats_txo_vlm_dist']
 
     for daily_file_name in file_names:
         print('Reading in {}...'.format(daily_file_name))
