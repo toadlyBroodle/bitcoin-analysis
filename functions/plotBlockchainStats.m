@@ -32,8 +32,8 @@ plot(timepastfut,lnfitexpext,'g--','LineWidth',2);
 plot(timepastfut,fitpolyext,'r--','LineWidth',2);
 
 % uncomment respective titles
-%stattit = 'daily Bitcoin days destroyed (BDD)';
-%staty = 'BDD';
+stattit = 'daily Bitcoin days destroyed (BDD)';
+staty = 'BDD';
 %stattit = 'daily cumulative Bitcoin block size';
 %staty = 'Cumulative block size, [bytes]';
 %stattit = 'daily cumulative Bitcoin mining fees';
@@ -46,20 +46,22 @@ plot(timepastfut,fitpolyext,'r--','LineWidth',2);
 %staty = 'Accepted transactions';
 %stattit = 'total Bitcoin UTXOs';
 %staty = 'Total UTXOs';
-stattit = 'daily new Bitcoin addresses';
-staty = 'New addresses';
+%stattit = 'daily new Bitcoin addresses';
+%staty = 'New addresses';
 %stattit = 'daily BTC value transferred';
 %staty = 'BTC transferred, [Satoshis]';
 
 lnstaty = sprintf('Ln(%s)',staty);
 
-title({sprintf('Weekly averaged %s',stattit);'with exp1 and poly1 best fits';'(github.com/toadlyBroodle/bitcoin-analysis)'})
+title({sprintf('Weekly averaged %s',stattit);...
+    'with exp1 and poly1 best fits to July 6, 2018';...
+    '\it\fontsize{10}github.com/toadlyBroodle/bitcoin-analysis/'})
 ylabel(lnstaty)
 xlabel('Unix timestamp, [seconds]')
 %xtickformat('y');
 legend(staty,...
-    sprintf('Exp1 fit: y=%.3e*exp(%.3e*x)',fitexp.a,fitexp.b),...
-    sprintf('Poly1 fit: ln(y)=%.3e*x+(%.3e)',fitpoly.p1,fitpoly.p2));
+    sprintf('Exp1 fit: y=%.3e*exp(%.3e*x); Growth: %.0f%%/year',fitexp.a,fitexp.b, fitexp.b*60*60*24*365*100),...
+    sprintf('Poly1 fit: ln(y)=%.3e*x+(%.3e); Growth: %.0f%%/year',fitpoly.p1,fitpoly.p2,fitpoly.p1*60*60*24*365*100));
 
 % axis for years
 ax2 = axes('Position',[ax.Position(1) .88 ax.Position(3) 1e-12],...
