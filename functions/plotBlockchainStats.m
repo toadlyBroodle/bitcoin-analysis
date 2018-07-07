@@ -25,7 +25,7 @@ grid on
 ax = gca;
 
 xlim([minTime maxTime]);
-ylim([min(lnstats(:)) max(lnstats(:))]);
+ylim([min(lnstats(:)) max(lnstats(:)) + 1]); % add padding to top y-axis for timeline
 
 plot(time,lnstats,'b');
 plot(timepastfut,lnfitexpext,'g--','LineWidth',2);
@@ -53,7 +53,7 @@ staty = 'New addresses';
 
 lnstaty = sprintf('Ln(%s)',staty);
 
-title({sprintf('Weekly averaged %s',stattit);'with exp1 and poly1 best fits'})
+title({sprintf('Weekly averaged %s',stattit);'with exp1 and poly1 best fits';'(github.com/toadlyBroodle/bitcoin-analysis)'})
 ylabel(lnstaty)
 xlabel('Unix timestamp, [seconds]')
 %xtickformat('y');
