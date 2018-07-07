@@ -8,32 +8,24 @@ Various scripts and data used to analyze the Bitcoin blockchain, network, protoc
      - source url: http://api.bitcoincharts.com/v1/csv/bitstampUSD.csv.gz
      - unzip bitstampUSD.csv.gz -> bitstampUSD.csv
    - process bitstampUSD.csv
-     - spit out average daily price history -> btcusd-avg-day-price.csv
-     - spit out average weekly price history -> btcusd-avg-week-price.csv
+     - spit out average daily/weekly price history -> _btcusd-avg-[day/week]-price.csv_
 
  - _plotPriceChart.m_
    - Description: Matlab function that plots above data sets along with exponential fitted curves from three subsets of price data.
-     - Note: must manually import .csv files into Matlab tables to feed into function
-     - input arguments: price table, log scale y-axis (boolean)
+     - Note: must manually import .csv files into Matlab tables to feed into function and change daily/weekly title strings
+     - Input argument: daily/weekly price array imported from _btcusd-avg-price.csv_ file
 
 ## Bitcoin transaction and UTXO histories
 
- - _compress-btc-tx-history.py_
-   - Description: compress previously exported transaction and utxo count historical data by calculating daily and weekly averages.
-   - Note: must manually download transaction and utxo data from http://satoshi.info
-     - respective files: tx_count_history.csv, utxo_count_history.csv
-   - script processes above files and spits out daily and weekly averaged counts
-     - respective tx files: tx-day-count.csv, tx-week-count.csv
-     - restpecive utxo files: utxo-day-count.csv, utxo-avg-week-count.csv
+ - _compress-oxt-blockchain-history.py_
+   - Description: compress previously exported blockchain metrics historical data by calculating daily and weekly averages.
+   - Note: must manually download metrics .csv data from http://oxt.me
+   - Script processes downloaded metric files and spits out daily and weekly averaged _stats[METRIC].csv_ files
 
- - _plotTxChart.m_
+ - _plotBlockchainStats.m_
    - Description: Matlab function that plots above data sets along with respective exponential fitted curves.
-     - Note: must manually import .csv files into Matlab tables to feed into function
-     - input arguments: tx table, utxo table, log scale y-axis (boolean)
-
- - _generate_prehistory_price.py_
-   - Description: populates .csv file with dummy price data from mining of first block to beginning of Bitstamp trading history.
-     - This dummy data can be useful for improved curve fitting accuracy.
+     - Note: must manually import .csv files into Matlab tables to feed into function and uncomment only relevant title strings
+     - Input argument: relevant metric array imported from daily/weekly averaged _stats[METRIC].csv_ files
 
 ## Generated Figures
 
