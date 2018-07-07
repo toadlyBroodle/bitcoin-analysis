@@ -68,9 +68,9 @@ def main(argv):
     line_num=0
     dc=1
     pastday=None
-    avg_day_price=0
+    cum_day_price=0
     wc=1
-    avg_week_price=0
+    cum_week_price=0
 
     print('Processing price history into daily and weekly average prices...')
     for row in trades:
@@ -81,9 +81,9 @@ def main(argv):
             continue
 
         if day == pastday:
-            avg_day_price += float(row[1])
+            cum_day_price += float(row[1])
         else:
-            day_avg = avg_day_price / dc
+            day_avg = cum_day_price / dc
 
             with open(avg_day_price_csv, 'a') as compressed_csv: # [unixtime, avg_day_price]
                 # spit out entire table
@@ -95,18 +95,18 @@ def main(argv):
                 # just prices
                 #compressed_prices.write(row[1] + '\n')
 
-            avg_week_price += day_avg
+            cum_week_price += day_avg
             if wc == 7:
-                avg_week_price = str(avg_week_price / 7)
+                avg_week_price = str(cum_week_price / 7)
                 # spit out avg weekly data points
                 with open(avg_week_price_csv, 'a') as compressed_csv: # [unixtime, avg_week_price]
                     compressed_csv.write(row[0] + ', {}\n'.format(avg_week_price))
 
                 wc=1
-                avg_week_price=0
+                cum_week_price=0
 
             wc+=1
-            avg_day_price = 0
+            cum_day_price = 0
             dc=1
 
         pastday = day
