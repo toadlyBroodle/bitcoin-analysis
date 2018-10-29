@@ -6,7 +6,7 @@ import datetime
 from time import strftime, mktime
 
 def get_posix_timestamp(timestr): # input format: YYYY-mm-ddThh:mm:ssZ
-    d = datetime.datetime.strptime(timestr, "%d/%m/%Y")
+    d = datetime.datetime.strptime(timestr, "%Y-%m-%d")
     return mktime(d.timetuple())
 
 def main(argv):
@@ -14,7 +14,7 @@ def main(argv):
         Format daily and calculate weekly averages of daily blockchain statistics, previously exported from http://oxt.me.
     '''
 
-    file_names = ['stats_bdd','stats_fee','stats_nb_tx','stats_new_addr','stats_txo_in','stats_txo_out']
+    file_names = ['sp500-13sep2011']
 
     for daily_file_name in file_names:
         print('Reading in {}...'.format(daily_file_name))
@@ -41,7 +41,7 @@ def main(argv):
 
             try:
                 time_stamp = str(int(get_posix_timestamp(row[0])))
-                stat = float(row[1])
+                stat = float(row[4])
             except ValueError as e:
                 print("Caught error: " + str(e))
                 continue
