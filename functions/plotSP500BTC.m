@@ -1,83 +1,80 @@
 function [  ] = plotSP500BTC( sp50013sep2017,btcusdavgprice )
 
-minTime = 1.31e+09;
-maxTime = 1.48e+09;
+SPY = 3.1536e+07; %3.1536e+07 seconds/year
 
 % Prepare stats arrays
-time = sp50013sep2017{:,1};
-stats = sp50013sep2017{:,2};
-lnstats = log(stats);
+timesp500 = sp50013sep2017{:,1};
+sp500 = sp50013sep2017{:,2};
+%lnsp500 = log(sp500);
 timebtc = btcusdavgprice{:,1};
 btc = btcusdavgprice{:,2};
-lnbtc = log(btc);
+%lnbtc = log(btc);
 
-timepastfut = linspace(minTime,maxTime,20);
-% fit data
-%fitpolystat = fit(time,lnstats,'poly1');
-%fitpolystatext = fitpolystat.p1*timepastfut+fitpolystat.p2;
-%expfitPolyExt = exp(fitPolyExt);
-%fitpolybtc = fit(timebtc,lnbtc,'poly1');
-%fitpolybtcext = fitpolybtc.p1*timepastfut+fitpolybtc.p2;
+minTime = 1.29384e+09; %1/1/2011
+maxTime = 1.5463e+09; %1/1/2019
+timeTicks = minTime:SPY:maxTime;
+minPrice = 0;
+maxPriceBtc = 30000;
+maxPriceSp500 = 3000;
 
-% Plot daily exchange chart
-figure(2)
-grid on;
-ax1 = gca;
-
-%xlim([minTime maxTime]);
-%ylim([min(lnstats(:)) max(lnstats(:)) + 1]); % add padding to top y-axis for timeline
-
-plot(timebtc,lnbtc,'b');
-%plot(timepastfut,fitpolystatext,'g--','LineWidth',2);
-
-hold on;
+% best fit lines
+fitpolysp500 = fit(timesp500,sp500,'poly1');
+fitsp500line = fitpolysp500.p1*timeTicks+fitpolysp500.p2;
+fitpolybtc = fit(timebtc,btc,'poly1');
+fitbtcline = fitpolybtc.p1*timeTicks+fitpolybtc.p2;
 
 % labels
+usd = ' (USD$)';
 btcy = 'USD/BTC';
 btctit = sprintf('Daily %s price',btcy);
-staty = 'S&P500';
-stattit = sprintf('Daily %s close',staty);
-lnbtcy = sprintf('Ln(%s)',btcy);
-lnstaty = sprintf('Ln(%s)',staty);
-title({sprintf('%s and %s',btctit,stattit);...
+sp500y = 'S&P500';
+sp500tit = sprintf('Daily %s close',sp500y);
+title({sprintf('%s and %s',btctit,sp500tit);...
     '\it\fontsize{10}github.com/toadlyBroodle/bitcoin-analysis/'})
 
-ax1.YAxis.Color = 'b';
-ylabel(lnbtcy)
-ax1.XTickLabels = [];
+% Plot daily exchange chart
+ax1 = gca;
 
-% plot S&P data on seperate axis
-ax2 = axes('Position',get(ax1,'Position'),'YAxisLocation','right','Color','none');
-ax2.YAxis.Color = 'r';
-ax2.XLim = [2009,2019.1];
-
+yyaxis(ax1(1),'left')
 hold on;
+plot(ax1(1),timebtc,btc,'Color','b')
+plot(ax1(1),timeTicks,fitbtcline,'g--','LineWidth',2);
 
-plot(time,lnstats,'r');
-%plot(timepastfut,fitpolybtcext,'p--','LineWidth',2);
+set(ax1(1),'YColor','b');
+set(ax1(1),'YScale','log')
+set(ax1(1),'ylim', [minPrice,maxPriceBtc])
+%set(ax1(1),'xlim', [(minTime + SPY),maxTime])
+ax1.XTick = timeTicks;
+xticklabels(2011:1:2019)
+yticklabels([1,10,100,1000,10000])
+ylabel(ax1(1),sprintf('%s%s',btcy,usd))
 
-ylabel(lnstaty)
+yyaxis(ax1(1),'right')
+hold on;
+plot(ax1(1),timesp500,sp500,'Color','r')
+plot(ax1(1),timeTicks,fitsp500line,'p--','LineWidth',2);
+
+set(ax1(1),'YScale','log')
+set(ax1(1),'ylim', [minPrice,maxPriceSp500])
+set(ax1(1),'xlim', [minTime,maxTime])
+set(ax1(1),'YColor','r');
+ylabel(ax1(1),sprintf('%s%s',sp500y,usd))
 
 % inset linear plot
-ax3 = axes('Position',[.68 .14 .25 .25],...
+ax3 = axes('Position',[.64 .18 .25 .25],...
     'XAxisLocation','top','YAxisLocation','left',...
     'YScale','linear');
 
-hold on;
-
+hold(ax3,'on')
 plot(timebtc,btc,'b');
-plot(time,stats,'r');
-%plot(timeExt,fitExpExt,'g--','LineWidth',2);
-%plot(timeExt,expfitPolyExt,'r--','LineWidth',2);
+plot(timesp500,sp500,'r');
 
-ax3.XTick = [];
-ylabel(ax3,'USD$');
-yticklabels({'0','10000','20000'})
-legend(btcy,staty);
-
-
-
-%ax3.XLim = [minTime maxTime];
-%ax3.YLim = [min(stats(:)) max(stats(:))];
+ylabel(ax3,usd);
+yticklabels([0,10000,20000])
+set(ax3,'xlim', [minTime,maxTime])
+ax3.XTick = timeTicks;
+ax3.XAxisLocation = 'bottom';
+xticklabels(11:1:19)
+%legend(btcy,sp500y);
 
 end
