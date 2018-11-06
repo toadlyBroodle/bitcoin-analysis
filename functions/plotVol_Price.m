@@ -18,57 +18,69 @@ maxPriceBtc = 30000;
 %maxPriceSp500 = 3000;
 
 % labels
-usd = ' (USD$)';
-btcy = 'USD/BTC';
-btctit = sprintf('Daily %s price',btcy);
-voly = 'S&P500';
-voltit = sprintf('Daily %s close',voly);
-title({sprintf('%s and %s',btctit,voltit);...
+usdbtcunit = '[USD$/BTC]';
+volunit = '[TODO:units]';
+btctit = sprintf('Bitcoin price, %s',usdbtcunit);
+voltit = sprintf('Adjusted transaction volume, %s',volunit);
+title({'Daily Bitcoin price and adjusted transaction volume';...
     '\it\fontsize{10}github.com/toadlyBroodle/bitcoin-analysis/'})
 
 % Plot daily exchange chart
 ax1 = gca;
 
-yyaxis(ax1(1),'left')
+%% LOG BTC Price on RIGHT axis
+yyaxis(ax1(1),'right')
+set(ax1(1),'YScale','log')
+set(ax1(1),'ylim', [1,20000])
+set(ax1(1),'YColor','b');
+
 hold on;
 plot(ax1(1),timebtc,btc,'Color','b')
 %plot(ax1(1),timeTicks,fitbtcline,'g--','LineWidth',2);
 
-set(ax1(1),'YColor','b');
-set(ax1(1),'YScale','log')
 %set(ax1(1),'ylim', [minPrice,maxPriceBtc])
-%set(ax1(1),'xlim', [(minTime + SPY),maxTime])
+set(ax1(1),'xlim', [(minTime + SPY),maxTime])
 ax1.XTick = timeTicks;
 xticklabels(2011:1:2019)
 yticklabels([1,10,100,1000,10000])
-ylabel(ax1(1),sprintf('%s%s',btcy,usd))
+ylabel(ax1(1),btctit)
 
-yyaxis(ax1(1),'right')
+%% LOG Volume on LEFT axis
+yyaxis(ax1(1),'left')
 hold on;
 plot(ax1(1),timevol,vol,'Color','r')
 %plot(ax1(1),timeTicks,fitsp500line,'p--','LineWidth',2);
 
 set(ax1(1),'YScale','log')
 %set(ax1(1),'ylim', [minPrice,maxPriceSp500])
-set(ax1(1),'xlim', [minTime,maxTime])
 set(ax1(1),'YColor','r');
-ylabel(ax1(1),sprintf('%s%s',voly,usd))
+ylabel(ax1(1),voltit)
 
-% inset linear plot
-ax3 = axes('Position',[.64 .18 .25 .25],...
-    'XAxisLocation','top','YAxisLocation','left',...
+%% inset linear plot
+ax2 = axes('Position',[.57 .18 .25 .25],...
+    'XAxisLocation','bottom','YAxisLocation','left',...
     'YScale','linear');
+set(ax2,'xlim', [minTime,maxTime])
+xticklabels(11:1:19) % year labels
 
-hold(ax3,'on')
+hold(ax2,'on')
+%% LIN BTC Price on RIGHT axis
+yyaxis(ax2(1),'right')
+set(ax2(1),'YColor','b');
 plot(timebtc,btc,'b');
+
+ylabel(ax2,usdbtcunit);
+yticklabels([0,10000,20000])
+ax2.XTick = timeTicks;
+%legend(btcy,sp500y);
+
+%% LIN Volume on LEFT axis
+yyaxis(ax2(1),'left')
+set(ax2(1),'YColor','r');
 plot(timevol,vol,'r');
 
-ylabel(ax3,usd);
-yticklabels([0,10000,20000])
-set(ax3,'xlim', [minTime,maxTime])
-ax3.XTick = timeTicks;
-ax3.XAxisLocation = 'bottom';
-xticklabels(11:1:19)
-%legend(btcy,sp500y);
+ylabel(ax2,volunit);
+%yticklabels([0,10000,20000])
+ax2.XTick = timeTicks;
 
 end
