@@ -11,10 +11,11 @@ def get_posix_timestamp(timestr): # input format: YYYY-mm-ddThh:mm:ssZ
 
 def main(argv):
     '''
-        Format daily and calculate weekly averages of daily blockchain statistics, previously exported from http://oxt.me.
+        Format daily and calculate weekly averages of S&P500 and Nasdaq exchanges, 
+        previously exported from finance.yahoo.com.
     '''
 
-    file_names = ['sp500-13sep2011']
+    file_names = ['GSPC','IXIC']
 
     for daily_file_name in file_names:
         print('Reading in {}...'.format(daily_file_name))
