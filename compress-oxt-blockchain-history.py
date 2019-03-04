@@ -14,7 +14,7 @@ def main(argv):
         Format daily and calculate weekly averages of daily blockchain statistics, previously exported from http://oxt.me.
     '''
 
-    file_names = ['stats_bdd','stats_fee','stats_nb_tx','stats_new_addr','stats_txo_in','stats_txo_out','stats_vlm_out']
+    file_names = ['stats_bdd']#,'stats_fee','stats_nb_tx','stats_new_addr','stats_txo_in','stats_txo_out','stats_vlm_out']
 
     for daily_file_name in file_names:
         print('Reading in {}...'.format(daily_file_name))
@@ -36,7 +36,7 @@ def main(argv):
         wc=1
         avg_week_tx=0
 
-        print('Processing {} into weekly averages...'.format(daily_file_name))
+        print('Processing {} into daily and weekly averages...'.format(daily_file_name))
         for row in daily_stats:
 
             try:
@@ -67,7 +67,7 @@ def main(argv):
 
             wc+=1
 
-        print('Finished {} calculating weekly averages.'.format(daily_file_name))
+        print('Finished {} calculating daily and weekly averages.'.format(daily_file_name))
 
 # so main() isn't executed if file is imported
 if __name__ == "__main__":
