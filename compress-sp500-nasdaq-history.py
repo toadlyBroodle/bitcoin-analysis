@@ -6,15 +6,16 @@ import datetime
 from time import strftime, mktime
 
 def get_posix_timestamp(timestr): # input format: YYYY-mm-ddThh:mm:ssZ
-    d = datetime.datetime.strptime(timestr, "%d/%m/%Y")
+    d = datetime.datetime.strptime(timestr, "%Y-%m-%d")
     return mktime(d.timetuple())
 
 def main(argv):
     '''
-        Format daily and calculate weekly averages of daily blockchain statistics, previously exported from http://oxt.me.
+        Format daily and calculate weekly averages of S&P500 and Nasdaq exchanges, 
+        previously exported from finance.yahoo.com.
     '''
 
-    file_names = ['stats_bdd']#,'stats_fee','stats_nb_tx','stats_new_addr','stats_txo_in','stats_txo_out','stats_vlm_out']
+    file_names = ['GSPC','IXIC']
 
     for daily_file_name in file_names:
         print('Reading in {}...'.format(daily_file_name))
@@ -24,8 +25,8 @@ def main(argv):
         with open('data/{}.csv'.format(daily_file_name), 'r') as f:
             daily_stats = csv.reader(f.readlines(), dialect='excel', delimiter=',') # tx format: [tx, time, count]
 
-        day_path = '../data/day/{}.csv'.format(daily_file_name)
-        week_path = '../data/week/{}.csv'.format(daily_file_name)
+        day_path = 'data/day/{}.csv'.format(daily_file_name)
+        week_path = 'data/week/{}.csv'.format(daily_file_name)
 
         # don't append to old files
         if os.path.isfile(day_path):
@@ -36,12 +37,12 @@ def main(argv):
         wc=1
         avg_week_tx=0
 
-        print('Processing {} into daily and weekly averages...'.format(daily_file_name))
+        print('Processing {} into weekly averages...'.format(daily_file_name))
         for row in daily_stats:
 
             try:
                 time_stamp = str(int(get_posix_timestamp(row[0])))
-                stat = float(row[1])
+                stat = float(row[4])
             except ValueError as e:
                 print("Caught error: " + str(e))
                 continue
@@ -67,7 +68,7 @@ def main(argv):
 
             wc+=1
 
-        print('Finished {} calculating daily and weekly averages.'.format(daily_file_name))
+        print('Finished {} calculating weekly averages.'.format(daily_file_name))
 
 # so main() isn't executed if file is imported
 if __name__ == "__main__":
