@@ -21,11 +21,11 @@ def get_date_string(stamp):
 
 def main(argv):
 
-    local_csv_path = 'data/bitstampUSD.csv'
-    local_gz_path = 'data/bitstampUSD.csv.gz'
+    local_csv_path = '../data/bitstampUSD.csv'
+    local_gz_path = '../data/bitstampUSD.csv.gz'
     url = 'http://api.bitcoincharts.com/v1/csv/bitstampUSD.csv.gz'
-    avg_day_price_csv = 'data/day/btcusd-avg-price.csv'
-    avg_week_price_csv = 'data/week/btcusd-avg-price.csv'
+    avg_day_price_csv = '../data/day/btcusd-avg-price.csv'
+    avg_week_price_csv = '../data/week/btcusd-avg-price.csv'
 
     # catch SIGINTs and KeyboardInterrupts
     def signal_handler(signal, frame):

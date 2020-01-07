@@ -21,10 +21,10 @@ def main(argv):
 
         # load csv lines
         daily_stats = None
-        with open('data/{}.csv'.format(daily_file_name), 'r') as f:
+        with open('../data/{}.csv'.format(daily_file_name), 'r') as f:
             daily_stats = csv.reader(f.readlines(), dialect='excel', delimiter=',') # tx format: [tx, time, count]
 
-        week_path = 'data/week/{}.csv'.format(daily_file_name)
+        week_path = '../data/week/{}.csv'.format(daily_file_name)
 
         # don't append to old files
         if os.path.isfile(week_path):
