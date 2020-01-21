@@ -1,5 +1,8 @@
 function [ ] = plotPriceFits( btcusdavgprice )
 
+genTime = 1.231e+09; % Genesis block time
+SPY = 60*60*24*365;
+
 % Prepare arrays and tables of times and prices
 time = btcusdavgprice{:,1};
 price = btcusdavgprice{:,2};
@@ -10,6 +13,9 @@ maxPrice = max(price(:));
 minTime = time(1);
 maxTime = 1.61e+09;
 timeExt = linspace(minTime,maxTime,20);
+
+minDate = datetime(minTime,'ConvertFrom','posixtime');
+maxDate = datetime(maxTime,'ConvertFrom','posixtime');
 
 [fitExp,gdnessExp] = fit(time,price,'exp1');
 fitExpExt = fitExp.a*exp(fitExp.b*timeExt(:));
@@ -37,14 +43,8 @@ title({'Daily averaged Bitstamp Bitcoin trading price:';...
 xlabel('Unix timestamp, [seconds]')
 ylabel('Ln(Bitcoin price, [USD/BTC])')
 legend('Average daily Bitcoin price',...
-    sprintf('Exp1 fit: y=%.3e*exp(%.3e*x); Growth: %.0f%%/year, R^2: %.2f',fitExp.a,fitExp.b,fitExp.b*60*60*24*365*100,gdnessExp.rsquare),...
-    sprintf('Poly1 fit: ln(y)=%.3e*x+(%.3e); Growth: %.0f%%/year, R^2: %.2f',fitPoly.p1,fitPoly.p2,fitPoly.p1*60*60*24*365*100,gdnessPoly.rsquare));
-
-% axis for years
-ax2 = axes('Position',[ax.Position(1) .88 ax.Position(3) 1e-12],...
-    'XAxisLocation','top',...
-    'XLim',[2011.75,2019.1],...
-    'Color','none');
+    sprintf('Exp1 fit: y=%.3e*exp(%.3e*x); Growth: %.0f%%/year, R^2: %.2f',fitExp.a,fitExp.b,fitExp.b*SPY*100,gdnessExp.rsquare),...
+    sprintf('Poly1 fit: ln(y)=%.3e*x+(%.3e); Growth: %.0f%%/year, R^2: %.2f',fitPoly.p1,fitPoly.p2,fitPoly.p1*SPY*100,gdnessPoly.rsquare));
 
 % inset linear plot
 ax3 = axes('Position',[.66 .14 .25 .25],...
